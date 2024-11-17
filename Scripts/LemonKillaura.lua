@@ -1,23 +1,19 @@
-local range = 15
-
--// Variable \\-
-local player = game:GetService("Players").LocalPlayer
-
--// Script \\-
-game:GetService("RunService").RenderStepped:Connect(function()
-    local p = game.Players:GetPlayers()
-    for i = 2, #p do local v = p[i].Character
-        if v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and player:DistanceFromCharacter(v.HumanoidRootPart.Position) <= range then
-            local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
-            if tool and tool:FindFirstChild("Handle") then
-                tool:Activate()
-                for i,v in next, v:GetChildren() do
-                    if v:IsA("BasePart") then
-                        firetouchinterest(tool.Handle,v,0)
-                        firetouchinterest(tool.Handle,v,1)
-                    end
-                end
+local auraPart = script.Parent  
+local detectionRadius = 30  
+local function killInRange()
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
+            local humanoid = obj:FindFirstChild("Humanoid")
+            local characterPosition = obj.HumanoidRootPart.Position  
+            local distance = (auraPart.Position - characterPosition).Magnitude
+            if distance <= detectionRadius then
+                humanoid.Health = 0
             end
         end
     end
-end)
+end
+
+while true do
+    killInRange()
+    wait(1)  -- Kiểm tra mỗi giây
+end
