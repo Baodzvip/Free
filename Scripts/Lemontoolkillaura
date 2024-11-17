@@ -1,0 +1,31 @@
+local tool = script.Parent  -- Vũ khí (Tool)
+local detectionRadius = 20  -- Bán kính phạm vi tấn công (20 studs)
+local attackCooldown = 1  -- Thời gian chờ giữa các lần tấn công (1 giây)
+
+-- Hàm kiểm tra và tấn công các đối tượng trong phạm vi
+local function attackInRange()
+    -- Duyệt qua tất cả các đối tượng trong Workspace
+    for _, obj in pairs(workspace:GetChildren()) do
+        -- Kiểm tra nếu đối tượng là một Model và có Humanoid (Player hoặc Mob)
+        if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
+            local humanoid = obj:FindFirstChild("Humanoid")
+            local characterPosition = obj.HumanoidRootPart.Position  -- Vị trí của nhân vật
+
+            -- Tính khoảng cách giữa vũ khí và nhân vật
+            local distance = (tool.Handle.Position - characterPosition).Magnitude
+
+            -- Nếu nhân vật ở trong phạm vi tấn công, gây sát thương
+            if distance <= detectionRadius then
+                -- Giảm máu xuống 0 để giết nhân vật
+                humanoid.Health = 0
+            end
+        end
+    end
+end
+
+-- Kiểm tra khi vũ khí được sử dụng
+tool.Activated:Connect(function()
+    -- Tấn công mọi đối tượng trong phạm vi sau khi vũ khí được sử dụng
+    attackInRange()
+    wait(attackCooldown)  -- Chờ sau mỗi lần tấn công để tránh tấn công quá nhanh
+end)
