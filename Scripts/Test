@@ -1,0 +1,36 @@
+-- Loop Attack Script (Tấn công liên tục)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local attacking = false
+
+function startAttack()
+    if not attacking then
+        attacking = true
+        while attacking do
+            humanoid:MoveTo(character.HumanoidRootPart.Position + Vector3.new(1, 0, 0))  -- Di chuyển và tấn công
+            wait(0.1)  -- Mỗi 0.1 giây thực hiện một cú tấn công
+            -- Gây sát thương hoặc thực hiện hành động tấn công khác
+            print("Attacking!")
+        end
+    end
+end
+
+function stopAttack()
+    attacking = false
+end
+
+-- Bắt đầu tấn công khi nhấn phím "E"
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
+    if input.KeyCode == Enum.KeyCode.E and not gameProcessedEvent then
+        startAttack()
+    end
+end)
+
+-- Dừng tấn công khi nhấn phím "Q"
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
+    if input.KeyCode == Enum.KeyCode.Q and not gameProcessedEvent then
+        stopAttack()
+    end
+end)
