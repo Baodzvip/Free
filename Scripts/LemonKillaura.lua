@@ -1,4 +1,7 @@
-while getgenv().KillAURA do
+getgenv().KillAURA = true
+
+spawn(function()
+  while getgenv().KillAURA do
     task.wait()
        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 200)
           sethiddenproperty(game.Players.LocalPlayer, "MaxSimulationRadius", 200)
