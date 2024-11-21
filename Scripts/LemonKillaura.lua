@@ -1,11 +1,14 @@
-     _G.KillAura = true
-        while KillAura do wait()
-            pcall(function()
-                for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
-                    if v.ClassName == "Model" and v.Humanoid.Health > 0 then
-                        v.Humanoid.Health = Die
-                        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  200)
-                    end
-                end
-            end)
-        end
+getgenv().KillAURA = true
+
+spawn(function()
+  while getgenv().KillAURA do
+    task.wait()
+       sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 200)
+          sethiddenproperty(game.Players.LocalPlayer, "MaxSimulationRadius", 200)
+              for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                if v.ClassName == 'Humanoid' and v.Parent.Name ~= game.Players.LocalPlayer.Name then
+             v.Health = 0
+          end
+       end
+    end
+end)
