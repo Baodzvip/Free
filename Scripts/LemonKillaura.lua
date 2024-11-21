@@ -1,19 +1,11 @@
-local auraPart = script.Parent  
-local detectionRadius = 30  
-local function killInRange()
-    for _, obj in pairs(workspace:GetChildren()) do
-        if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
-            local humanoid = obj:FindFirstChild("Humanoid")
-            local characterPosition = obj.HumanoidRootPart.Position  
-            local distance = (auraPart.Position - characterPosition).Magnitude
-            if distance <= detectionRadius then
-                humanoid.Health = 0
-            end
+     _G.KillAura = true
+        while KillAura do wait()
+            pcall(function()
+                for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
+                    if v.ClassName == "Model" and v.Humanoid.Health > 0 then
+                        v.Humanoid.Health = Die
+                        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  200)
+                    end
+                end
+            end)
         end
-    end
-end
-
-while true do
-    killInRange()
-    wait(1)  -- Kiểm tra mỗi giây
-end
